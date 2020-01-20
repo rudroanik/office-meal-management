@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Meal Counter</string>
+    <string name="sign_in_with_facebook">Sign in with facebook</string>
+    <string name="meal_counter">Meal Counter</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="home">Home</string>
+    <string name="history">My Order History</string>
+    <string name="facebook_app_id">160594231914282</string>
+    <string name="fb_login_protocol_scheme">fb160594231914282</string>
+    <string name="you_get_only_today_s_order_list_here">You get only today\'s order list here</string>
+    <string name="view_all_orders">View today\'s orders</string>
+    <string name="order">Order</string>
+    <string name="order_your_today_s_lunch">Order your today\'s lunch</string>
+    <string name="_20_jan_monday">20 Jan (Monday)</string>
+    <string name="done_image">done image</string>
+    <string name="monthly_order_report">Monthly order report</string>
+
+</resources>
