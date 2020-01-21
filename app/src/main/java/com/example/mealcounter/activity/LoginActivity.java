@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.mealcounter.R;
+import com.example.mealcounter.Utils.UserInfo;
 import com.example.mealcounter.databinding.ActivityLoginBinding;
 import com.example.mealcounter.fragment.HomeFragment;
 import com.facebook.AccessToken;
@@ -22,12 +23,15 @@ import com.facebook.FacebookException;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Arrays;
 
@@ -109,6 +113,8 @@ public class LoginActivity extends AppCompatActivity {
                             editor.putString("UserName",user.getDisplayName());
                             editor.putString("UserId",user.getUid());
                             editor.apply();
+                            UserInfo userInfo = new UserInfo(user.getUid(),user.getDisplayName(),"");
+                            saveUserInfo(userInfo);
 
                         } else {
                             // If sign in fails, display a message to the user.
@@ -119,6 +125,20 @@ public class LoginActivity extends AppCompatActivity {
                         // ...
                     }
                 });
+    }
+
+
+    private void saveUserInfo(UserInfo userInfo){
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference().child("UserInfo").child(userInfo.getUserId());
+
+        databaseReference.setValue(userInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+
+            }
+        });
+
     }
 
 

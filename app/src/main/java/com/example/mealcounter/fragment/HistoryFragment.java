@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -92,7 +93,7 @@ public class HistoryFragment extends Fragment {
                        Order order = dataSnapshot1.getValue(Order.class);
                        orderList.add(order);
                        initRecyclerView(orderList);
-                       binding.title.setText(getActivity().getResources().getString(R.string.history)+" ("+orderList.size()+")");
+                       binding.title.setText("My Order History"+" ("+orderList.size()+")");
                     }
                 }
 
@@ -107,7 +108,7 @@ public class HistoryFragment extends Fragment {
     }
 
     private void getMonth(){
-        final List<Object> year = new ArrayList<>();
+        final List<String> year = new ArrayList<>();
         final DatabaseReference databaseReferenceMonthlyOrder = firebaseDatabase.getReference().child("MonthlyOrder");
         databaseReferenceMonthlyOrder.addValueEventListener(new ValueEventListener() {
             @Override
@@ -117,8 +118,11 @@ public class HistoryFragment extends Fragment {
                       year.add(snapshot.getKey());
                   }
 
-                    ArrayAdapter<Object> adapter = new ArrayAdapter<Object>(getContext(), android.R.layout.simple_spinner_dropdown_item, year);
-                    binding.spinnerId.setAdapter(adapter);
+                  if (getActivity() != null){
+                      ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, year);
+                      binding.spinnerId.setAdapter(adapter);
+                  }
+
                 }
             }
 

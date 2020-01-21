@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.mealcounter.R;
 import com.example.mealcounter.Utils.Order;
+import com.example.mealcounter.activity.ViewMonthlyReportActivity;
 import com.example.mealcounter.activity.ViewOrderActivity;
 import com.example.mealcounter.databinding.FragmentHomeBinding;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -28,6 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -44,12 +46,14 @@ public class HomeFragment extends Fragment {
     private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMMM-yyyy");
     private SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE");
     private SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM-yyyy");
+    private SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm aa");
     Date date = new Date();
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
-    List<Order> dailyOrderList = new ArrayList<>();
+    List<Order> dailyOrderList;
     String userId;
     FirebaseDatabase firebaseDatabase;
+    Calendar calendar;
 
 
 
@@ -65,11 +69,13 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false);
         firebaseDatabase = FirebaseDatabase.getInstance();
-
+        calendar = Calendar.getInstance();
+        dailyOrderList = new ArrayList<>();
         getDailyOrderList();
         sharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
         userId = sharedPreferences.getString("UserId", "No Id");
+
 
 
         binding.dateID.setText("(" + dateFormat.format(date) + ") " + dayFormat.format(date));
@@ -79,6 +85,13 @@ public class HomeFragment extends Fragment {
 
                 startActivity(new Intent(getActivity(), ViewOrderActivity.class));
 
+            }
+        });
+
+        binding.viewMonthlyOrderLayoutID.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), ViewMonthlyReportActivity.class));
             }
         });
 
@@ -158,6 +171,9 @@ public class HomeFragment extends Fragment {
                             binding.doneImageID.setVisibility(View.VISIBLE);
                             binding.cancelTvID.setVisibility(View.VISIBLE);
                             binding.oderButtonID.setVisibility(View.GONE);
+                        }
+                        if (calendar.get(Calendar.HOUR_OF_DAY)>12){
+                            binding.cancelTvID.setVisibility(View.GONE);
                         }
                     }
 

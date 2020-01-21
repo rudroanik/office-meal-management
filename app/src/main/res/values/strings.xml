@@ -16,5 +16,6 @@
     <string name="_20_jan_monday">20 Jan (Monday)</string>
     <string name="done_image">done image</string>
     <string name="monthly_order_report">Monthly order report</string>
+    <string name="monthly_report">Monthly report</string>
 
 </resources>
